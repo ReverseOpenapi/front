@@ -1,0 +1,10 @@
+.text-field{
+    background-color: rgba(235, 25, 235, 0.466);
+    border-radius: 5%;
+}
+
+.list-item{
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+}
