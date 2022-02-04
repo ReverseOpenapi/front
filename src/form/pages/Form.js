@@ -5,7 +5,7 @@ import DataForm from '../components/DataForm';
 
 function Form() {
   const [info, setInfo] = useState();
-  const handleCallback = (info)  => {
+  const handleCallback = (info) => {
     setInfo(info)
     console.log(info)
   }
@@ -16,7 +16,7 @@ function Form() {
         <DataForm dataParentToChild={handleCallback} />
       </div>
       <div className="droite">
-        < Editor dataFromForm = {info}/>
+        < Editor dataFromForm={info} />
       </div>
     </div>
   );

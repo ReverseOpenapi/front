@@ -37,10 +37,11 @@ export default function AddField({ addField, dataParentToChild}) {
     setChecked(newChecked);
   };
 
-  const OptionField = ["termsOfService", "contact", "license"];
+  const OptionField = ["termsOfService", "contact", "license"]
 
   //Delete data from OptionField
   // dataParentToChild = [] 
+  // console.log(dataParentToChild)
   for (let i = 0; i < dataParentToChild.length; i++) {
     let dataCheck = OptionField.includes(dataParentToChild[i].key)
     if (dataCheck === true) {
@@ -55,7 +56,6 @@ export default function AddField({ addField, dataParentToChild}) {
       }
     }
   }
-
 
   return (
     <div className='list-item'>

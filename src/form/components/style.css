@@ -8,3 +8,8 @@
     justify-content: center;
     margin-top: 10%;
 }
+
+.addTag {
+    display: flex;
+    justify-content: center;
+}
