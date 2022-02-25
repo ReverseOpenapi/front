@@ -13,3 +13,30 @@
     display: flex;
     justify-content: center;
 }
+
+.paths-field{
+    margin-top: 5% ;
+}
+
+.Page_form{
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: rgb(22, 22, 22);
+}
+
+.gauche {
+	width: 50%;
+	min-height: 100vh;
+	float: left;
+
+}
+
+.droite {
+	width: 50%;
+	min-height: 100vh;
+	float: left;
+}

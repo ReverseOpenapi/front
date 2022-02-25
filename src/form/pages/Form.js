@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import './Form.css';
-import Editor from '../components/Editor';
-import DataForm from '../components/DataForm';
+import Stepper from '../components/Stepper'
 
 function Form() {
   const [info, setInfo] = useState();
@@ -11,13 +10,8 @@ function Form() {
   }
 
   return (
-    <div className="Page_form">
-      <div className="gauche">
-        <DataForm dataParentToChild={handleCallback} />
-      </div>
-      <div className="droite">
-        < Editor dataFromForm={info} />
-      </div>
+    <div className="">
+        <Stepper dataOpenApi={handleCallback}/>
     </div>
   );
 }

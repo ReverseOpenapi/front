@@ -157,10 +157,6 @@ export default function DataForm({ dataParentToChild }) {
                                 <p />
                             }
 
-                            {
-
-                            }
-
                             {/*Show operation list OR opertation selected*/}
                             <div className="list-item" spacing={1}>
                                 {isClicked && step.label === "paths"?

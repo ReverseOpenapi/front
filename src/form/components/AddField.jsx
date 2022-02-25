@@ -40,8 +40,6 @@ export default function AddField({ addField, dataParentToChild}) {
   const OptionField = ["termsOfService", "contact", "license"]
 
   //Delete data from OptionField
-  // dataParentToChild = [] 
-  // console.log(dataParentToChild)
   for (let i = 0; i < dataParentToChild.length; i++) {
     let dataCheck = OptionField.includes(dataParentToChild[i].key)
     if (dataCheck === true) {
@@ -50,7 +48,7 @@ export default function AddField({ addField, dataParentToChild}) {
           OptionField.splice(j, 1)
           // close the OptFieldList
           if (OptionField.length === 0) {
-            console.log("H")
+            return
           }
         }
       }
@@ -59,7 +57,6 @@ export default function AddField({ addField, dataParentToChild}) {
 
   return (
     <div className='list-item'>
-
       <Box className='App' sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', color: 'black' }}>
         <nav aria-label="secondary mailbox folders">
           <List
