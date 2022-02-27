@@ -7,14 +7,13 @@ import Chip from '@mui/material/Chip';
 
 export default function Paths({ dataPath }) {
 
-    const operation = [{ key: "GET", color: "blue" }, { key: "PUT", color: "orange" }, { key: "POST", color: "green" }, { key: "DELETE", color: "red" }]
+    const operation = [{ key: "GET", color: "#3b83f6" }, { key: "PUT", color: "orange" }, { key: "POST", color: "#49cc90" }, { key: "DELETE", color: "red" }]
     const [isClicked, setIsClicked] = useState(false)
     const [opeSelected, setOpeSelected] = useState({ key: "", color: "" })
     let path = ""
     let dataComplete = {operationObj : "", path : ""}
 
     useEffect(() => {
-       
         console.log(dataComplete)
     })
 
@@ -29,7 +28,7 @@ export default function Paths({ dataPath }) {
 
     const handleChange = (event) => {
         path = event.target.value
-        dataComplete = {operationObj : opeSelected.key, path : path}
+        dataComplete = {operationObj : opeSelected.key, path : path, opeColor : opeSelected.color}
     }
 
     const Field = (

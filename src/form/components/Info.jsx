@@ -15,24 +15,23 @@ export default function Info({ dataInfo }) {
     })
 
     const handleChange = (event, index) => {
-        info[index].value = event.target.value
-        console.log(info)
+        info[index].value = event.target.value 
     }
 
     //Get Data from AddField
-    const [data, setData] = useState([])
     const handleCallback = (childData) => {
-        //Need setData but why ?
-        setData(childData)
         console.log(childData)
         for (let i = 0; i < childData.length; i++) {
             console.log('Push info')
-            info.push({ key: childData[i], value: "" })
-            console.log(info)
+            //set current data info in Info
+            setInfo(currentDataInfo => [
+                ...currentDataInfo,
+                {
+                     key: childData[i], value: "" 
+                }
+            ])
         }
-        childData.splice(0, childData.length)
     }
-
 
     return (
         <div>

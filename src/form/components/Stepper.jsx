@@ -13,32 +13,32 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-export default function StepperOpenApi({ dataParentToChild, dataOpenApi }) {
-
+export default function StepperOpenApi({ dataOpenApi }) {
 
     //Step OpenApi value
-    const [steps, setSteps] = useState([
+    const steps = [
         {
             label: 'info',
-            // info: [{ key: "title", value: "" }, { key: "description", value: "" }, { key: "version", value: "" }],
             info: []
         },
         {
             label: 'tags',
-            // tags: [{ key: "name", value: "" }, { key: "description", value: "" }],
             tags: []
         },
         {
             label: 'paths',
-            // paths: [{ key: "endPoint", value: "" }],
             paths: [],
 
         }
-    ]);
+    ];
 
-   const arrdataPaths = []
-const [dataPaths, setDataPaths] = useState([])
+    const arrdataPaths = []
+    const [dataPaths, setDataPaths] = useState([])
 
     //Stepper config 
     const [activeStep, setActiveStep] = React.useState(0);
@@ -59,27 +59,31 @@ const [dataPaths, setDataPaths] = useState([])
     const callbackInfo = (childData) => {
         console.log(childData)
         steps[0].info = childData
+        console.log(steps)
         handleNext()
     }
 
-    const callbackPath = (childData) => {
-        console.log(childData)
-        //check here
-        arrdataPaths.push(childData)
-        setDataPaths(arrdataPaths)
-        // steps[2].paths = childData
-        // dataParentToChild = steps
+    useEffect(() => {       
         console.log(dataPaths)
+    })
 
-        // handleNext()
+    const callbackPath = (childData) => {
+        //set current data path in dataPaths
+        setDataPaths(currentDataPath => [
+            ...currentDataPath,
+            {
+                operationObj : childData.operationObj,
+                path : childData.path,
+                opeColor : childData.opeColor
+            }
+        ])
     }
 
     const handleShowData = () => {
+        steps[2].paths = dataPaths
         console.log(steps)
     }
-    useEffect(() => {
-        document.title = `Data path :  ${dataPaths} `;
-      });
+
 
     return (
         <div className='Page_form'>
@@ -122,8 +126,8 @@ const [dataPaths, setDataPaths] = useState([])
                                                 Back
                                             </Button>
                                             {step.label === "paths" ?
-                                                <Button onClick={() => { dataOpenApi(steps) }} sx={{ mt: 1, mr: 1 }}>
-                                                    Add data
+                                                <Button onClick={handleShowData} sx={{ mt: 1, mr: 1 }}>
+                                                    Add data to arrSteps
                                                 </Button> : <p />
                                             }
                                         </div>
@@ -149,14 +153,27 @@ const [dataPaths, setDataPaths] = useState([])
 
             <div className="droite">
                 <h1>DISLAY PATHS</h1>
-                {/* {dataPaths.map(item => {
+                {dataPaths.map(item => {
                     console.log(item)
-                    return (
-                        <div>
-                            <h1>{item}</h1>
-                        </div>
+                    return(
+                    <Accordion style={{ backgroundColor: item.opeColor,opacity: "0.85", color: "white" }}>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                        >
+                            <Typography>{item.operationObj} {item.path}</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Typography>
+                                Parameters Component
+                                Response Component                               
+                            </Typography>
+                        </AccordionDetails>
+                    </Accordion>
                     )
-                })} */}
+                }
+                )}
             </div>
         </div>
     )
