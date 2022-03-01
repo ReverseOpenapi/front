@@ -37,14 +37,13 @@ export default function StepperOpenApi({ dataOpenApi }) {
         }
     ];
 
-    const arrdataPaths = []
     const [dataPaths, setDataPaths] = useState([])
+    const [dataInfo, setDataInfo] = useState([])
 
     //Stepper config 
     const [activeStep, setActiveStep] = React.useState(0);
 
     const handleNext = (step, index) => {
-
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
 
@@ -58,14 +57,20 @@ export default function StepperOpenApi({ dataOpenApi }) {
 
     const callbackInfo = (childData) => {
         console.log(childData)
+        for (let i = 0; i < childData.length; i++) {
+            //set current data info in dataInfos
+            setDataInfo(currentDataPath => [
+                ...currentDataPath,
+                {
+                    key : childData[i].key,
+                    value : childData[i].value,
+                }
+            ])
+        }
         steps[0].info = childData
-        console.log(steps)
+        localStorage.setItem('info', JSON.stringify(childData))
         handleNext()
     }
-
-    useEffect(() => {       
-        console.log(dataPaths)
-    })
 
     const callbackPath = (childData) => {
         //set current data path in dataPaths
@@ -80,6 +85,7 @@ export default function StepperOpenApi({ dataOpenApi }) {
     }
 
     const handleShowData = () => {
+        steps[0].info = dataInfo
         steps[2].paths = dataPaths
         console.log(steps)
     }
@@ -154,7 +160,6 @@ export default function StepperOpenApi({ dataOpenApi }) {
             <div className="droite">
                 <h1>DISLAY PATHS</h1>
                 {dataPaths.map(item => {
-                    console.log(item)
                     return(
                     <Accordion style={{ backgroundColor: item.opeColor,opacity: "0.85", color: "white" }}>
                         <AccordionSummary
