@@ -13,10 +13,6 @@ export default function Paths({ dataPath }) {
     let path = ""
     let dataComplete = {operationObj : "", path : ""}
 
-    useEffect(() => {
-        console.log(dataComplete)
-    })
-
     //Select Operation
     const chipsClick = (ope) => {
         setOpeSelected(ope)
@@ -41,8 +37,6 @@ export default function Paths({ dataPath }) {
             onChange={(e) => handleChange(e)}
         />
     )
-
-console.log(opeSelected)
 
     return (
         <div className="">

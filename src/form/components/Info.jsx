@@ -8,11 +8,30 @@ import Button from '@mui/material/Button';
 
 export default function Info({ dataInfo }) {
 
-    const [info, setInfo] = useState([{ key: "title", value: "" }, { key: "description", value: "" }, { key: "version", value: "" }]);
+    const [info, setInfo] = useState([]);
+    const requiredInfo = [{ key: "title", value: "" }, { key: "description", value: "" }, { key: "version", value: "" }]
+    const localStorageInfo = JSON.parse(localStorage.getItem("info"))
 
-    useEffect(() => {
-        console.log(info)
-    })
+    if(localStorageInfo !== null && info.length === 0){ //If we have data in localstorage, add to info
+        for (let i = 0; i < localStorageInfo.length; i++) {
+            setInfo(currentDataInfo => [
+                ...currentDataInfo,
+                {
+                     key: localStorageInfo[i].key, value: localStorageInfo[i].value
+                }
+            ])
+            }
+        }else if(info.length === 0){ //If info empty, add requiredInfo to info
+            for (let i = 0; i < requiredInfo.length; i++) {
+                setInfo(currentDataInfo => [
+                    ...currentDataInfo,
+                    {
+                         key: requiredInfo[i].key, value: requiredInfo[i].value
+                    }
+                ])
+            }
+        }
+    
 
     const handleChange = (event, index) => {
         info[index].value = event.target.value 
@@ -20,10 +39,7 @@ export default function Info({ dataInfo }) {
 
     //Get Data from AddField
     const handleCallback = (childData) => {
-        console.log(childData)
         for (let i = 0; i < childData.length; i++) {
-            console.log('Push info')
-            //set current data info in Info
             setInfo(currentDataInfo => [
                 ...currentDataInfo,
                 {
@@ -44,7 +60,7 @@ export default function Info({ dataInfo }) {
                             id="filled-required"
                             label={item.key}
                             onChange={(e) => handleChange(e, index)}
-                            value={info.value}
+                            defaultValue = {info[index].value} //Show LocalStorage value
                         />
                     )
                 })
