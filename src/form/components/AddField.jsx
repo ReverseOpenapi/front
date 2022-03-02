@@ -46,10 +46,13 @@ export default function AddField({ addField, dataParentToChild}) {
       for (let j = 0; j < OptionField.length; j++) {
         if (OptionField[j] === dataParentToChild[i].key) {
           OptionField.splice(j, 1)
+          console.log("SPLICE DATA")
+          console.log(OptionField)
           // close the OptFieldList
-          if (OptionField.length === 0) {
-            return
-          }
+          // if (OptionField.length === 0) {
+          //   console.log("LAST IF")
+          //   return
+          // }
         }
       }
     }

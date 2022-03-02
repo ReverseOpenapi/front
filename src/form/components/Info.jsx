@@ -8,7 +8,8 @@ import Button from '@mui/material/Button';
 
 export default function Info({ dataInfo }) {
 
-    const [info, setInfo] = useState([]);
+    const [info, setInfo] = useState([]); 
+    const [keyInfo, setKeyInfo] = useState([]) 
     const requiredInfo = [{ key: "title", value: "" }, { key: "description", value: "" }, { key: "version", value: "" }]
     const localStorageInfo = JSON.parse(localStorage.getItem("info"))
 
@@ -20,14 +21,22 @@ export default function Info({ dataInfo }) {
                      key: localStorageInfo[i].key, value: localStorageInfo[i].value
                 }
             ])
+            setKeyInfo(currentDataKeyInfo => [
+                ...currentDataKeyInfo,
+                localStorageInfo[i].key
+            ])
             }
-        }else if(info.length === 0){ //If info empty, add requiredInfo to info
+        }else if(info.length === 0){ //If info is empty, add requiredInfo to info
             for (let i = 0; i < requiredInfo.length; i++) {
                 setInfo(currentDataInfo => [
                     ...currentDataInfo,
                     {
                          key: requiredInfo[i].key, value: requiredInfo[i].value
                     }
+                ])
+                setKeyInfo(currentDataKeyInfo => [
+                    ...currentDataKeyInfo,
+                    requiredInfo[i].key
                 ])
             }
         }
@@ -40,15 +49,23 @@ export default function Info({ dataInfo }) {
     //Get Data from AddField
     const handleCallback = (childData) => {
         for (let i = 0; i < childData.length; i++) {
-            setInfo(currentDataInfo => [
-                ...currentDataInfo,
-                {
-                     key: childData[i], value: "" 
-                }
-            ])
+            //Add a condition to avoid duplication
+            if(keyInfo.includes(childData[i]) === false){
+                setInfo(currentDataInfo => [
+                    ...currentDataInfo,
+                    {
+                         key: childData[i], value: "" 
+                    }
+                ])
+                setKeyInfo(currentDataKeyInfo => [
+                    ...currentDataKeyInfo,
+                    childData[i]
+                ])
+            }
         }
     }
 
+    console.log(keyInfo)
     return (
         <div>
             {info.map((item, index) => {
