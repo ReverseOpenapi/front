@@ -56,7 +56,10 @@ export default function StepperOpenApi({ dataOpenApi }) {
     };
 
     const callbackInfo = (childData) => {
-        console.log(childData)
+        //replace old data Info with the updated data
+        if (dataInfo !== []){
+            dataInfo.splice(0)
+        }
         for (let i = 0; i < childData.length; i++) {
             //set current data info in dataInfos
             setDataInfo(currentDataPath => [
@@ -133,7 +136,7 @@ export default function StepperOpenApi({ dataOpenApi }) {
                                             </Button>
                                             {step.label === "paths" ?
                                                 <Button onClick={handleShowData} sx={{ mt: 1, mr: 1 }}>
-                                                    Add data to arrSteps
+                                                    Show OpenAPI Data in the console
                                                 </Button> : <p />
                                             }
                                         </div>
