@@ -3,19 +3,9 @@
     border-radius: 5%;
 }
 
-.list-item{
-    display: flex;
-    justify-content: center;
-    margin-top: 10%;
-}
-
 .addTag {
     display: flex;
     justify-content: center;
-}
-
-.paths-field{
-    margin-top: 5% ;
 }
 
 .Page_form{
