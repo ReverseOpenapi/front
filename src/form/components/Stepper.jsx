@@ -19,6 +19,8 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
+import { styled } from "@material-ui/styles";
+
 export default function StepperOpenApi() {
   //Step OpenApi value
   const steps = [
@@ -109,6 +111,11 @@ export default function StepperOpenApi() {
     console.log(steps);
   };
 
+  const StyledStepLabel = styled(StepLabel)({
+    "& .MuiStepLabel-label": {
+      color: "white"
+    }
+  });
   return (
     <div className="Page_form">
       <div className="gauche">
@@ -116,7 +123,7 @@ export default function StepperOpenApi() {
           <Stepper activeStep={activeStep} orientation="vertical">
             {steps.map((step, indexS) => (
               <Step key={step.label}>
-                <StepLabel>{step.label}</StepLabel>
+                <StyledStepLabel>{step.label}</StyledStepLabel>
                 <StepContent>
                   {/* Show component according to the step.label */}
                   {(() => {

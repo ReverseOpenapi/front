@@ -3,11 +3,6 @@
     border-radius: 5%;
 }
 
-.addTag {
-    display: flex;
-    justify-content: center;
-}
-
 .Page_form{
     text-align: center;
     min-height: 100vh;
@@ -22,11 +17,15 @@
 	width: 50%;
 	min-height: 100vh;
 	float: left;
-
 }
 
 .droite {
 	width: 50%;
 	min-height: 100vh;
 	float: left;
+}
+
+.licenseObjStyle, .contactObjStyle {
+    color : white;
+    background-color: rgb(22, 22, 22);;
 }
