@@ -1,19 +1,19 @@
 import { makeStyles } from "@material-ui/styles";
 
-export default makeStyles((theme) => ({
+export default makeStyles(() => ({
   contnent: {
     display: "flex",
   },
   input: {
     color: "red !important",
   },
-  root: {
-    "&$disabled $notchedOutline": {
-      borderColor: "orange",
-    },
-  },
+  // root: {
+  //   "&$disabled $notchedOutline": {
+  //     borderColor: "orange",
+  //   },
+  // },
   textfield: {
-    color: "white !important",
+    color: "black !important",
     fontSize: 14,
     fontWeight: "bold",
   },

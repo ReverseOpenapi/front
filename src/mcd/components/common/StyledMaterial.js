@@ -28,6 +28,7 @@ export const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export const StyledButton = styled(Button)(({ theme }) => ({
   backgroundColor: "#6c5ca0",
   color: "silver",
+  height: "3rem",
 }));
 
 export const StyledTypography = styled(Typography)(({ theme }) => ({
