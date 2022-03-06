@@ -53,8 +53,6 @@ const SchemaCard = () => {
     setIndexOfEntity(index);
   };
 
-  console.log(positions);
-
   return hasLoaded ? (
     <div id="canvas-wrap">
       <canvas id="canvas"></canvas>
