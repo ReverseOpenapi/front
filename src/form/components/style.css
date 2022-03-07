@@ -29,3 +29,8 @@
     color : white;
     background-color: rgb(22, 22, 22);;
 }
+
+.checkboxStyle{
+    display: flex;
+    justify-content: flex-start;
+}

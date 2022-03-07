@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./style.css";
 import AddField from "./AddField";
 
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
 
 export default function Info({ dataInfo }) {
   const [info, setInfo] = useState([]);
@@ -53,7 +52,7 @@ export default function Info({ dataInfo }) {
     if ((key === "name" || key === "url") && item === "license") {
       info[index].value[i].value = event.target.value; 
     } else if ((key === "name" || key === "url" || key === "email") && item === "contact") { 
-      info[index].value[i].value = event.target.value;  
+      info[index].value[i].value = event.target.value;
     }else{
       info[index].value = event.target.value;
     }

@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "./style.css";
+import { useSelector, useDispatch } from "react-redux";
 
 import Info from "./Info";
 import Tags from "./Tags";
 import Paths from "./Paths";
+import Parameters from "./Parameters"
+import CustomizedList from "./CustomizedList"
 
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import StepContent from "@mui/material/StepContent";
-import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
@@ -40,6 +42,7 @@ export default function StepperOpenApi() {
 
   const [dataPaths, setDataPaths] = useState([]);
   const [dataInfo, setDataInfo] = useState([]);
+  const [dataParams, setDataParams] = useState([])
 
   //Stepper config
   const [activeStep, setActiveStep] = React.useState(0);
@@ -88,7 +91,7 @@ export default function StepperOpenApi() {
   const callbackPath = (childData) => {
     let childDataPath = childData.path === undefined ? "" : childData.path.trim() 
     let childDataOpe = childData.operationObj === undefined ? "" : childData.operationObj.trim()
-    
+    console.log(childData)
     if(childData === false){
       handleBack()
     }
@@ -105,6 +108,28 @@ export default function StepperOpenApi() {
     }
   };
 
+  const callbackParam = (childData, dataPath) => {
+  dataPaths.filter((item) => {
+    if(item === dataPath){
+      dataPaths.splice(dataPaths.indexOf(item), 1);//avoids duplication
+    }
+  })
+
+  setDataPaths((currentDataPath) => [
+    ...currentDataPath,
+    {
+      operationObj: dataPath.operationObj,
+      path: dataPath.path,
+      opeColor: dataPath.opeColor,
+      parameters : [childData]
+    },
+  ]);
+
+  localStorage.setItem("param", JSON.stringify(childData));
+
+  };
+
+
   const handleShowData = () => {
     steps[0].info = dataInfo;
     steps[2].paths = dataPaths;
@@ -116,6 +141,10 @@ export default function StepperOpenApi() {
       color: "white"
     }
   });
+
+
+console.log(dataPaths)
+
   return (
     <div className="Page_form">
       <div className="gauche">
@@ -170,25 +199,6 @@ export default function StepperOpenApi() {
               </Step>
             ))}
           </Stepper>
-
-          {activeStep === steps.length && (
-            <Paper square elevation={0} sx={{ p: 3 }}>
-              <Typography>
-                All steps completed - you&apos;re finished
-              </Typography>
-              <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-                Reset
-              </Button>
-              {/* <Button
-                onClick={() => {
-                  dataOpenApi(steps);
-                }}
-                sx={{ mt: 1, mr: 1 }}
-              >
-                Add data
-              </Button> */}
-            </Paper>
-          )}
         </Box>
       </div>
 
@@ -213,7 +223,8 @@ export default function StepperOpenApi() {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>Parameters Component Response Component</Typography>
+                <Parameters dataPath={item} dataParam={callbackParam}/>
+                <Typography>Response Component</Typography>
               </AccordionDetails>
             </Accordion>
           );
