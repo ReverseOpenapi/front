@@ -1,7 +1,8 @@
-import { Card, Paper } from "@mui/material";
+import { Card, CardHeader, IconButton, Paper } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  removeAttributeToEntity,
   updateEntityKey,
   updateEntityName,
   updateEntityNulled,
@@ -17,8 +18,14 @@ import CustomizeCheckBox from "../common/CustomizeCheckBox";
 import CustomizeSelectTextField from "../common/CustomizeSelectTextField";
 import CustomizeTextField from "../common/CustomizeTextField";
 import "./Entity.css";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-const UpdateAttributeForm = ({ attribute, entityName }) => {
+const UpdateAttributeForm = ({
+  attribute,
+  entityName,
+  attributeIndex,
+  handleClose,
+}) => {
   const dispatch = useDispatch();
   const { type, size, key, nulled, name } = attribute;
   const [attributeType, setAttributeType] = useState(type);
@@ -66,13 +73,26 @@ const UpdateAttributeForm = ({ attribute, entityName }) => {
     }
   };
 
+  const handleDeleteAttribute = () => {
+    dispatch(removeAttributeToEntity([entityName, attributeIndex]));
+    handleClose();
+  };
+
   return (
     <div>
       <Card
         component={Paper}
         className="area"
-        sx={{ m: 1, minWidth: 230, maxWidth: 230 }}
+        sx={{ m: 1, minWidth: 230, maxWidth: 230, marginLeft: 2.5 }}
       >
+        <CardHeader
+          action={
+            <IconButton aria-label="settings" onClick={handleDeleteAttribute}>
+              <DeleteIcon sx={{ color: "	#e10000", opacity: 0.7 }} />
+            </IconButton>
+          }
+        />
+
         <CustomizeTextField
           type="text"
           id="attributeName"

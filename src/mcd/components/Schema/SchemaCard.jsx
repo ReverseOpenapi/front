@@ -4,6 +4,7 @@ import Draggable from "react-draggable";
 import SchemaModal from "./SchemaModal";
 import "./Schema.css";
 import { fabric } from "fabric";
+import { ImFilesEmpty } from "react-icons/im";
 
 const SchemaCard = () => {
   const entities = useSelector((state) => state.entities.value);
@@ -14,6 +15,9 @@ const SchemaCard = () => {
   const [hasLoaded, setHasLoading] = useState(false);
   const [canvas_b, setCanvas] = useState("");
   const nodeRef = useRef(null);
+
+  const data = useSelector((state) => state);
+  console.log(data);
 
   useEffect(() => {
     const existingDivPositions = JSON.parse(
@@ -89,26 +93,37 @@ const SchemaCard = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {entity.attributes.map((attr, index) => {
-                            return (
-                              <tr key={index}>
-                                <td>
-                                  {attr.key === true ? (
-                                    <>
-                                      {attr.name}
-                                      <img
-                                        src="./assets/icons/key-icon.svg"
-                                        alt="primary-key"
-                                      />
-                                    </>
-                                  ) : (
-                                    attr.name
-                                  )}
-                                </td>
-                                <td>{attr.type}</td>
-                              </tr>
-                            );
-                          })}
+                          {entity.attributes.length > 0 ? (
+                            entity.attributes.map((attr, index) => {
+                              return (
+                                <tr key={index}>
+                                  <td>
+                                    {attr.key === true ? (
+                                      <>
+                                        {attr.name}
+                                        <img
+                                          src="./assets/icons/key-icon.svg"
+                                          alt="primary-key"
+                                        />
+                                      </>
+                                    ) : (
+                                      attr.name
+                                    )}
+                                  </td>
+                                  <td>{attr.type}</td>
+                                </tr>
+                              );
+                            })
+                          ) : (
+                            <tr>
+                              <td>
+                                None attribute{" "}
+                                <ImFilesEmpty
+                                  style={{ color: "yellow", opacity: 0.5 }}
+                                />
+                              </td>
+                            </tr>
+                          )}
                         </tbody>
                       </table>
                     </div>

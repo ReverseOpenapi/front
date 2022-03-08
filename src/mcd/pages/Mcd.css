@@ -77,3 +77,13 @@
     overflow: hidden;
   }
 }
+
+.wrap-form {
+  margin-left: 220px;
+}
+
+@media (max-width: 551px) {
+  .wrap-form {
+    margin-left: 5rem;
+  }
+}
