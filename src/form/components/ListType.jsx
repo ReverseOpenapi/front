@@ -7,20 +7,20 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 
 const data = [
-  { label: 'query' },
-  { label: 'header' },
-  { label: 'path' },
-  { label: 'cookie' },
+  { label: 'string' },
+  { label: 'number' },
+  { label: 'integer' },
+  { label: 'boolean' },
 ];
 
-export default function CustomizedList({dataIn, paramsID}) {
+export default function ListType({dataType, paramsID}) {
   const [open, setOpen] = React.useState(false);
   const [selectedData, setSelectedData] = React.useState(String)
 
   const handleSelectedData = (data) => {
     setSelectedData(data)
     setOpen(!open)
-    dataIn(paramsID, data)
+    dataType(paramsID, data)
   }
 
 
@@ -68,7 +68,7 @@ export default function CustomizedList({dataIn, paramsID}) {
                     lineHeight: '20px',
                     mb: '2px',
                   }}
-                  secondary="query, header, path, cookie"
+                  secondary="string, number, integer, boolean"
                   secondaryTypographyProps={{
                     noWrap: true,
                     fontSize: 12,

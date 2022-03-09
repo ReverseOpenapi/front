@@ -121,11 +121,11 @@ export default function StepperOpenApi() {
       operationObj: dataPath.operationObj,
       path: dataPath.path,
       opeColor: dataPath.opeColor,
-      parameters : [childData]
+      parameters : childData
     },
   ]);
 
-  localStorage.setItem("param", JSON.stringify(childData));
+  // localStorage.setItem("param", JSON.stringify(childData));
 
   };
 
