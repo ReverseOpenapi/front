@@ -8,16 +8,28 @@ const selectOptions = [
     label: "integer",
   },
   {
-    value: "string",
-    label: "string",
+    value: "char",
+    label: "char",
+  },
+  {
+    value: "varchar",
+    label: "varchar",
   },
   {
     value: "boolean",
     label: "boolean",
   },
   {
-    value: "number",
-    label: "number",
+    value: "datetime",
+    label: "datetime",
+  },
+  {
+    value: "timestamp",
+    label: "timestamp",
+  },
+  {
+    value: "enum",
+    label: "enum",
   },
 ];
 

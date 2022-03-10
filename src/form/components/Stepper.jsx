@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "./style.css";
+import { useSelector, useDispatch } from "react-redux";
 
-import Info from "./Info";
-import Tags from "./Tags";
-import Paths from "./Paths";
+import Info from "./Info/Info";
+import Tags from "./Tag/Tags";
+import Paths from "./Path/Paths";
+import Parameters from "./Path/Parameters";
+import Response from "./Path/Response";
 
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import StepContent from "@mui/material/StepContent";
-import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
@@ -38,9 +40,10 @@ export default function StepperOpenApi() {
     },
   ];
 
-  const [dataPaths, setDataPaths] = useState([]);
   const [dataInfo, setDataInfo] = useState([]);
-
+  const [dataPaths, setDataPaths] = useState([]);
+  const [nbPath, setNbPath] = useState(0)
+  
   //Stepper config
   const [activeStep, setActiveStep] = React.useState(0);
 
@@ -50,10 +53,6 @@ export default function StepperOpenApi() {
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
   };
 
   const callbackInfo = (childData) => {
@@ -89,15 +88,16 @@ export default function StepperOpenApi() {
       childData.path === undefined ? "" : childData.path.trim();
     let childDataOpe =
       childData.operationObj === undefined ? "" : childData.operationObj.trim();
-
     if (childData === false) {
       handleBack();
     }
     if (childDataPath !== "" && childDataOpe !== "") {
+      setNbPath(nbPath + 1)
       //set current data path in dataPaths
       setDataPaths((currentDataPath) => [
         ...currentDataPath,
         {
+          id : nbPath,
           operationObj: childData.operationObj,
           path: childData.path.trim(), // trim() : remove the spaces, before and after the value
           opeColor: childData.opeColor,
@@ -105,6 +105,24 @@ export default function StepperOpenApi() {
       ]);
     }
   };
+
+  const callbackParam = (parameters, dataPath) => {
+    dataPaths.filter((item, i) => {
+      if (item.id === dataPath.id) {
+        dataPaths[i] = { ...dataPaths[i], parameters };
+      }
+    });
+  };
+
+  const callbackResponse = (responses, dataPath) => {
+    dataPaths.filter((item, i) => {
+      if (item.id === dataPath.id) {
+        dataPaths[i] = { ...dataPaths[i], responses };
+      }
+    });
+  };
+
+
 
   const handleShowData = () => {
     steps[0].info = dataInfo;
@@ -117,6 +135,7 @@ export default function StepperOpenApi() {
       color: "white",
     },
   });
+
   return (
     <div className="Page_form">
       <div className="gauche">
@@ -171,25 +190,6 @@ export default function StepperOpenApi() {
               </Step>
             ))}
           </Stepper>
-
-          {activeStep === steps.length && (
-            <Paper square elevation={0} sx={{ p: 3 }}>
-              <Typography>
-                All steps completed - you&apos;re finished
-              </Typography>
-              <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-                Reset
-              </Button>
-              {/* <Button
-                onClick={() => {
-                  dataOpenApi(steps);
-                }}
-                sx={{ mt: 1, mr: 1 }}
-              >
-                Add data
-              </Button> */}
-            </Paper>
-          )}
         </Box>
       </div>
 
@@ -214,7 +214,8 @@ export default function StepperOpenApi() {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>Parameters Component Response Component</Typography>
+                <Parameters dataPath={item} dataParam={callbackParam} />
+                <Response dataPath={item} dataResponse={callbackResponse} />
               </AccordionDetails>
             </Accordion>
           );

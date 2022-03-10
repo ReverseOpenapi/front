@@ -1,4 +1,4 @@
-.property-container {
+.attribute-container {
   display: flex;
   flex-wrap: wrap;
 }
@@ -21,7 +21,7 @@
   }
 }
 
-.properties-form {
+.attributes-form {
   width: 75%;
   margin-left: 1rem;
   display: flex;

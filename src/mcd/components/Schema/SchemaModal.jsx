@@ -1,11 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import UpdateEntityForm from "./UpdateSchemaForm";
-
-//action
-import { removeSchema } from "../../features/schemaSlice";
-
-// '@mui/material'
+import { removeEntity } from "../../features/entitySlice";
 import {
   Dialog,
   DialogTitle,
@@ -13,21 +8,19 @@ import {
   DialogContent,
   Button,
 } from "@mui/material";
-
-// icons
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import UpdateEntityForm from "../Entities/UpdateEntityForm";
 
 const SchemaModal = (props) => {
   const dispatch = useDispatch();
-  const { onClose, open, schema, indexOfSchema } = props;
+  const { onClose, open, entity, indexOfEntity } = props;
   const handleClose = () => {
     onClose();
   };
 
-  //handler
-  const handleDeleteSchema = () => {
-    dispatch(removeSchema(indexOfSchema));
+  const handleDeleteEntity = () => {
+    dispatch(removeEntity(indexOfEntity));
     onClose();
   };
 
@@ -38,7 +31,7 @@ const SchemaModal = (props) => {
       open={open}
     >
       <DialogTitle id="simple-dialog-title" sx={{ m: 0, p: 2 }}>
-        Update {schema.name}
+        update {entity.name}
         {onClose ? (
           <IconButton
             aria-label="close"
@@ -55,12 +48,12 @@ const SchemaModal = (props) => {
         ) : null}
       </DialogTitle>
       <DialogContent dividers>
-        <UpdateEntityForm schemaProps={schema} handleClose={handleClose} />
+        <UpdateEntityForm entityProps={entity} handleClose={handleClose} />
       </DialogContent>
       <DialogActions>
         <Button
           autoFocus
-          onClick={handleDeleteSchema}
+          onClick={handleDeleteEntity}
           color="error"
           sx={{
             position: "absolute",

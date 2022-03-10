@@ -1,43 +1,35 @@
+import { Box, FormControl, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
+import CustomizeSelectTextField from "../common/CustomizeSelectTextField";
+import { StyledButton } from "../common/StyledMaterial";
+import useStyles from "../style";
 import { useDispatch } from "react-redux";
 
-//Material Icon
+//Icons
 import SendIcon from "@mui/icons-material/Send";
-
-//'@mui/material'
-import { Box, TextField } from "@mui/material";
-
-//Customized Material componenents
-import { StyledButton } from "../common/StyledMaterial";
-import CustomizeSelectTextField from "../common/CustomizeSelectTextField";
-
-//style
+import { addData } from "../../features/dictionarySlice";
 import "./Dictionary.css";
-import useStyles from "../style";
-
-// action from slice
-import { addProperty } from "../../features/dictionarySlice";
 
 const DictionaryFrom = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  // setter and getter (state)
   const [name, setName] = useState("");
   const [type, setType] = useState("integer");
+  const [size, setSize] = useState("");
 
-  //handlers
   const handleChangeType = (event) => {
     setType(event.target.value);
   };
 
-  const handleCreateProperty = () => {
+  const handleData = () => {
     if (!name || !type) return;
 
-    dispatch(addProperty({ name: name, type: type }));
+    dispatch(addData({ name: name, type: type, size: size }));
 
     setName("");
     setType("integer");
+    setSize("");
   };
 
   return (
@@ -68,12 +60,24 @@ const DictionaryFrom = () => {
           value={type}
           onChange={handleChangeType}
         />
+
+        <TextField
+          InputLabelProps={{ className: classes.textfield }}
+          InputProps={{
+            style: { color: "black", fontWeight: 700, marginTop: "1.5rem" },
+          }}
+          id="type"
+          label="Size"
+          variant="standard"
+          value={size}
+          onChange={(e) => setSize(e.target.value)}
+        />
       </Box>
       <br />
       <div className="add-btn">
         <StyledButton
           variant="contained"
-          onClick={handleCreateProperty}
+          onClick={handleData}
           endIcon={<SendIcon />}
           className={classes.buttonBg}
         >

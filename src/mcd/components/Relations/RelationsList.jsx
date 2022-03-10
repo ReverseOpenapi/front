@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
-//'@mui/material'
-import { TableCell } from "@material-ui/core";
+import {
+  StyledTableCell,
+  StyledTableRow,
+  StyledTypography,
+} from "../common/StyledMaterial";
 import {
   Paper,
   Table,
@@ -11,33 +13,72 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-
-//Customized Material component
-import {
-  StyledTableCell,
-  StyledTableRow,
-  StyledTypography,
-} from "../common/StyledMaterial";
-
-// action
+import { TableCell } from "@material-ui/core";
 import {
   removeRelation,
   updateRelationTargetName,
 } from "../../features/relationSlice";
-import { updateSchemaName } from "../../features/schemaSlice";
-
-// react-icons
 import { GrLink } from "react-icons/gr";
+import { updateEntityName } from "../../features/entitySlice";
 
 const RelationsList = () => {
   const dispatch = useDispatch();
-
-  //* get data from store
   const relations = useSelector((state) => state.relations.value);
+  const entities = useSelector((state) => state.entities.value);
+  const [attributeName, setAttributeName] = useState("");
+  const [openInput, setOpenInput] = useState(true);
 
-  //handlers
   const handleRemoveRelation = (index) => {
     dispatch(removeRelation(index));
+  };
+
+  const handleRename = (
+    relationTargetPortRename,
+    relationTargetPortNotRename,
+    relationTargetTable
+  ) => {
+    if (
+      !attributeName &&
+      relationTargetPortRename !== attributeName &&
+      relationTargetPortRename !== relationTargetPortNotRename
+    ) {
+      dispatch(
+        updateEntityName([
+          entities,
+          relationTargetPortNotRename,
+          relationTargetPortRename,
+          relationTargetTable,
+        ])
+      );
+      dispatch(
+        updateRelationTargetName([
+          relations,
+          relationTargetPortNotRename,
+          relationTargetPortRename,
+          relationTargetTable,
+        ])
+      );
+      setOpenInput(false);
+    } else if (attributeName && attributeName === relationTargetPortNotRename) {
+    } else {
+      dispatch(
+        updateEntityName([
+          entities,
+          relationTargetPortNotRename,
+          attributeName,
+          relationTargetTable,
+        ])
+      );
+      dispatch(
+        updateRelationTargetName([
+          relations,
+          relationTargetPortNotRename,
+          relationTargetPortRename,
+          relationTargetTable,
+        ])
+      );
+      setOpenInput(false);
+    }
   };
 
   return (
@@ -50,7 +91,7 @@ const RelationsList = () => {
         >
           <Table
             sx={{ minWidth: 400, maxWidth: 500, borderColor: "white" }}
-            aria-label="customized schema"
+            aria-label="customized table"
           >
             <TableHead>
               <TableRow>
@@ -64,13 +105,39 @@ const RelationsList = () => {
                 return (
                   <StyledTableRow key={index}>
                     <StyledTableCell>
-                      {relation.source.schema} <br /> <GrLink />{" "}
+                      {relation.source.table} <br /> <GrLink />{" "}
                       {relation.source.port}
                     </StyledTableCell>
                     <StyledTableCell>
-                      {relation.target.schema} <br />
+                      {relation.target.table} <br />
                       <GrLink />
-                      {relation.target.port}
+                      {openInput ? (
+                        <>
+                          {"(rename suggestion)"}
+                          <input
+                            type="type"
+                            id="source"
+                            className="input"
+                            defaultValue={`${relation.source.table}_${relation.source.port}`}
+                            onChange={(e) => setAttributeName(e.target.value)}
+                          />
+                          <button
+                            onClick={() =>
+                              handleRename(
+                                relation.source.table +
+                                  "_" +
+                                  relation.source.port,
+                                relation.target.port,
+                                relation.target.table
+                              )
+                            }
+                          >
+                            validate
+                          </button>
+                        </>
+                      ) : (
+                        relation.target.port
+                      )}
                     </StyledTableCell>
                     <TableCell
                       style={{ color: "#8B0000", cursor: "pointer" }}
