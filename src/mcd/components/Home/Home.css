@@ -1,0 +1,13 @@
+.wrap-home {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 220px;
+  justify-content: space-between;
+  padding: 0.5rem 0.5rem;
+}
+
+@media (max-width: 551px) {
+  .wrap-home {
+    margin-left: 5rem;
+  }
+}

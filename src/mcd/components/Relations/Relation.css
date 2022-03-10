@@ -1,0 +1,38 @@
+.wrap-relation-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 220px;
+  justify-content: center;
+  padding: 0.5rem 0.5rem;
+}
+
+@media (max-width: 551px) {
+  .wrap-container {
+    margin-left: 5rem;
+  }
+  .wrap-relation-container {
+    margin-left: 5rem;
+  }
+  .relation-form {
+    margin-left: 5rem;
+  }
+}
+
+.relation-form {
+  margin-right: 5rem;
+}
+
+.relation-list {
+  width: 20rem;
+}
+
+.area-relation {
+  padding: 0.5rem 0.25rem;
+  max-width: 98%;
+  display: flex;
+}
+
+.input {
+  width: fit-content;
+  margin-bottom: 3px;
+}
