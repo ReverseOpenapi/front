@@ -18,30 +18,38 @@ export const schemaSlice = createSlice({
       state.value.map(
         (schema) =>
           schema.name === action.payload[0] &&
-          schema.properties.push(action.payload[1])
+          schema.schema.properties.push(action.payload[1])
       );
     },
     removePropertySchema(state, action) {
       state.value.map(
         (schema) =>
           schema.name === action.payload[0] &&
-          schema.properties.splice(action.payload[1], 1)
+          schema.schema.properties.splice(action.payload[1], 1)
       );
     },
     updateSchemaName(state, action) {
-      state.value.map(
-        (schema) =>
-          schema.name === action.payload[3] &&
-          (schema.properties.find((v) => v.name === action.payload[1]).name =
-            action.payload[2])
-      );
+      // state.value.map(
+      //   (schema) =>
+      //     schema.name === action.payload[3] &&
+      //     schema.schema.properties.map((property) => {
+      //       if (Object.keys(property).toString() === action.payload[1]) {
+      //         let key = action.payload[1]
+      //         property.id = property.action.payload[2];
+      //         delete property.id;
+      //       }
+      //     })
+      // );
     },
     updateSchemaType(state, action) {
       state.value.map(
         (schema) =>
           schema.name === action.payload[3] &&
-          (schema.properties.find((v) => v.type === action.payload[1]).type =
-            action.payload[2])
+          schema.schema.properties.map((property) => {
+            if (property[Object.keys(property)].type === action.payload[1]) {
+              property[Object.keys(property)].type = action.payload[2];
+            }
+          })
       );
     },
   },

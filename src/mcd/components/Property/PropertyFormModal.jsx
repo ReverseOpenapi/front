@@ -29,8 +29,9 @@ const PropertyFormModal = ({ schema, setOpenForm, handleClose }) => {
       addPropertyToSchema([
         schema.name,
         {
-          name: propertyName,
-          type: propertyType,
+          [propertyName]: {
+            type: propertyType,
+          },
         },
       ])
     );
