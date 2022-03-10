@@ -22,32 +22,36 @@ export default function Tags({dataTags}) {
     };
 
     return (
-        <div className="tags-container">
+        <div >
             <div className="tags-input-container">
                 <div>
-                    {tags.map((tag, index) => (
-                        <div className="tag-items" key={index}>
-                            <span className="name">{tag.name}</span>
-                            <span className="description">{tag.description}</span>
-                            <span className="close" onClick={() => removeTags(index)}>&times;</span>
-                        </div>
-                    ))}
-                </div>
-                <TextField
-                    className="text-field"
-                    type="text"
-                    placeholder="name"
-                    onChange={(event) => setName(event.target.value)}
-                    value={name}
-                />
-                <TextField
-                    className="text-field"
-                    type="text"
-                    placeholder="description"
-                    onChange={(event) => setDescription(event.target.value)}
-                    value={description}
-                />
-                <Button onClick={handleSubmit}>Submit</Button>
+                    <div>
+                        {tags.map((tag, index) => (
+                            <div className="tag-items" key={index}>
+                                <span className="name">{tag.name}</span>
+                                <span className="description">{tag.description}</span>
+                                <span className="close" onClick={() => removeTags(index)}>&times;</span>
+                            </div>
+                        ))}
+                    </div>
+                    <TextField
+                        className="text-field"
+                        type="text"
+                        placeholder="name"
+                        onChange={(event) => setName(event.target.value)}
+                        value={name}
+                        style={{ display: "flex", margin: "5px" }}
+                    />
+                    <TextField
+                        className="text-field"
+                        type="text"
+                        placeholder="description"
+                        onChange={(event) => setDescription(event.target.value)}
+                        value={description}
+                        style={{ display: "flex", margin: "5px" }}
+                    />
+                    </div>
+                <Button onClick={handleSubmit}>Add tags</Button>
             </div>
             <Button primary onClick={() => dataTags(false)}>Back Step</Button>
             <Button primary onClick={() => dataTags(true)}>Next Step</Button>
