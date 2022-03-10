@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../../App.css";
 
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
