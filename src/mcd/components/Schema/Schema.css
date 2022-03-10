@@ -1,3 +1,64 @@
+.property-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.preload-dictionary {
+  width: 23%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1024px) {
+  .preload-dictionary {
+    width: 100%;
+  }
+}
+
+@media (max-width: 551px) {
+  .preload-dictionary {
+    justify-content: center;
+  }
+}
+
+.properties-form {
+  width: 75%;
+  margin-left: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.wrap-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0.5rem 0.5rem;
+}
+
+@media (max-width: 551px) {
+  .wrap-container {
+    margin-left: 5rem;
+  }
+}
+
+.wrap-button {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 220px;
+  padding: 0.5rem 0.5rem;
+}
+
+.area {
+  padding: 0.5rem 1rem;
+  max-width: 98%;
+}
+
+.button {
+  display: flex;
+  position: absolute;
+  margin-right: 10rem;
+}
+
 .mcd-view-container {
   margin-left: 1rem;
   min-width: 900px;

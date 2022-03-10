@@ -9,36 +9,42 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import "./Dictionary.css";
+import { TableCell } from "@mui/material";
 
-// Styled Material Components
+// Styles
 import {
   StyledTableCell,
   StyledTableRow,
   StyledTypography,
 } from "../common/StyledMaterial";
-import { TableCell } from "@mui/material";
-import { removedata } from "../../features/dictionarySlice";
+import "./Dictionary.css";
+
+//actions from slice
+import { removeProperty } from "../../features/dictionarySlice";
 
 const DictionaryCard = () => {
   const dispatch = useDispatch();
+
+  //* get data from store (db)
   const dictionary = useSelector((state) => state.dictionary.value);
 
-  const handleRemoveAttributeFromDictionary = (index) => {
-    dispatch(removedata(index));
+  const handleRemovePropertyFromDictionary = (index) => {
+    dispatch(removeProperty(index));
   };
 
   return (
-    <div className="wrap-container" data-testid="dictionary-card">
+    <div className="wrap-container">
       <div className="dictionary-form">
         <StyledTypography variant="subtitle1">
-          Add a new data in dictionary
+          Add properties to dictionary
         </StyledTypography>
 
         <DictionaryFrom />
       </div>
       <div className="dictionary-list">
-        <StyledTypography variant="subtitle1">Data dictionary</StyledTypography>
+        <StyledTypography variant="subtitle1">
+          Dictionary of properties
+        </StyledTypography>
         <TableContainer component={Paper}>
           <Table
             sx={{ minWidth: 200, borderColor: "white" }}
@@ -47,9 +53,8 @@ const DictionaryCard = () => {
             <TableHead>
               <TableRow>
                 <StyledTableCell>Name</StyledTableCell>
-                <StyledTableCell align="right">Type</StyledTableCell>
-                <StyledTableCell align="right">Size</StyledTableCell>
-                <StyledTableCell align="right">Action</StyledTableCell>
+                <StyledTableCell align="left">Type</StyledTableCell>
+                <StyledTableCell>Action</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -59,11 +64,10 @@ const DictionaryCard = () => {
                     <StyledTableCell component="th" scope="row">
                       {data.name}
                     </StyledTableCell>
-                    <StyledTableCell align="right">{data.type}</StyledTableCell>
-                    <StyledTableCell align="right">{data.size}</StyledTableCell>
+                    <StyledTableCell align="left">{data.type}</StyledTableCell>
                     <TableCell
                       style={{ color: "#8B0000", cursor: "pointer" }}
-                      onClick={() => handleRemoveAttributeFromDictionary(index)}
+                      onClick={() => handleRemovePropertyFromDictionary(index)}
                     >
                       delete
                     </TableCell>

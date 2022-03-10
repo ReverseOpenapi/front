@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   ProSidebar,
@@ -20,15 +20,17 @@ import { FiHome, FiArrowLeftCircle, FiArrowRightCircle } from "react-icons/fi";
 import "react-pro-sidebar/dist/css/styles.css";
 import "./Mcd.css";
 import DictionaryCard from "../components/Dictionary/DictionaryCard";
-import CreateEntityForm from "../components/Entities/CreateEntityForm";
+import CreateSchemaForm from "../components/Schema/CreateSchemaForm";
 import { RelationCard } from "../components/Relations/RelationCard";
 import SchemaCard from "../components/Schema/SchemaCard";
 import Home from "../components/Home/Home";
 import Form from "../../form/pages/Form";
+import Loading from "../components/common/Loading";
 
 const Mcd = () => {
   const [menuCollapse, setMenuCollapse] = useState(false);
   const [selected, setSelected] = useState(1);
+  const [hasLoaded, setHasLoading] = useState(false);
 
   const menuIconClick = () => {
     menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true);
@@ -38,8 +40,23 @@ const Mcd = () => {
     setSelected(param);
   };
 
-  return (
-    <>
+  useEffect(() => {
+    const existingSelectedItem = JSON.parse(
+      localStorage.getItem("selected_item")
+    );
+    setSelected(existingSelectedItem);
+    setHasLoading(true);
+    console.log(existingSelectedItem);
+    console.log(selected);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("selected_item", JSON.stringify(selected));
+  }, [selected]);
+
+  return hasLoaded ? (
+    <div>
+      <Loading />
       <div id="header">
         <ProSidebar collapsed={menuCollapse}>
           <SidebarHeader>
@@ -78,7 +95,7 @@ const Mcd = () => {
                 icon={<BsTable />}
                 onClick={() => selectedItem(3)}
               >
-                Collection
+                Schema
               </MenuItem>
               <MenuItem
                 active={selected === 4 ? true : false}
@@ -92,7 +109,7 @@ const Mcd = () => {
                 icon={<MdOutlineSchema />}
                 onClick={() => selectedItem(5)}
               >
-                Schema
+                Mcd
               </MenuItem>
             </Menu>
           </SidebarContent>
@@ -142,7 +159,7 @@ const Mcd = () => {
               transition: "all 1s ease-in-out",
             }}
           >
-            <CreateEntityForm />
+            <CreateSchemaForm />
           </div>
         )}
         {selected === 4 && (
@@ -166,8 +183,8 @@ const Mcd = () => {
           </div>
         )}
       </div>
-    </>
-  );
+    </div>
+  ) : null;
 };
 
 export default Mcd;

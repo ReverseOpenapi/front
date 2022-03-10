@@ -5,7 +5,7 @@ const initialState = {
 };
 
 export const relationSlice = createSlice({
-  name: "relation",
+  name: "relations",
   initialState,
   reducers: {
     addRelation(state, action) {

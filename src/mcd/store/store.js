@@ -1,16 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import dictionaryReducer from "../features/dictionarySlice";
-import attributesReducer from "../features/attributeSlice";
-import entitiesReducer from "../features/entitySlice";
-import relationreducer from "../features/relationSlice";
+import propertyReducer from "../features/propertySlice";
+import schemaReducer from "../features/schemaSlice";
+import relationRreducer from "../features/relationSlice";
 import { loadState, saveState } from "./localStorage";
 
 export const store = configureStore({
   reducer: {
     dictionary: dictionaryReducer,
-    attributes: attributesReducer,
-    entities: entitiesReducer,
-    relations: relationreducer,
+    relations: relationRreducer,
+    properties: propertyReducer,
+    schemas: schemaReducer,
   },
   preloadedState: loadState(),
 });
