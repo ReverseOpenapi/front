@@ -8,14 +8,14 @@ export const dictionarySlice = createSlice({
   name: "dictionary",
   initialState,
   reducers: {
-    addData(state, action) {
+    addProperty(state, action) {
       state.value.push(action.payload);
     },
-    removedata(state, action) {
+    removeProperty(state, action) {
       state.value.splice(action.payload, 1);
     },
   },
 });
 
-export const { addData, removedata } = dictionarySlice.actions;
+export const { addProperty, removeProperty } = dictionarySlice.actions;
 export default dictionarySlice.reducer;

@@ -1,21 +1,29 @@
-import React, { useState, useEffect } from "react";
-import "./Entity.css";
-import useStyles from "../style";
-import { Box, Button, Divider, TextField } from "@mui/material";
-import { StyledTypography } from "../common/StyledMaterial";
-import UpdateAttributeForm from "./UpdateAttributeForm";
-import AddAttribute from "./AddAttribute";
+import React, { useState } from "react";
+import UpdatePropertyForm from "../Property/UpdatePropertyForm";
+import AddAttribute from "../Property/PropertyFormModal";
 
-const UpdateEntity = ({ entityProps, handleClose }) => {
+// '@mui/material/
+import { Box, Button, Divider, TextField } from "@mui/material";
+
+// Customized Material component
+import { StyledTypography } from "../common/StyledMaterial";
+
+// style
+import useStyles from "../style";
+//import "./Schema.css";
+
+const UpdateSchemaForm = ({ schemaProps, handleClose }) => {
   const classes = useStyles();
-  const [entityName, setEntityName] = useState(entityProps.name);
+
+  // setter and getter (state)
+  const [schemaName, setSchemaName] = useState(schemaProps.name);
+
+  // toggle modal form
   const [openForm, setOpenForm] = useState(false);
 
   return (
     <div>
-      <StyledTypography variant="overline">
-        Collection Properties
-      </StyledTypography>
+      <StyledTypography variant="overline">schema properties</StyledTypography>
       <Box
         component="form"
         sx={{
@@ -27,8 +35,8 @@ const UpdateEntity = ({ entityProps, handleClose }) => {
           InputProps={{
             style: { color: "#8e44ad", fontWeight: 700 },
           }}
-          value={entityName}
-          onChange={(e) => setEntityName(e.target.value)}
+          value={schemaName}
+          onChange={(e) => setSchemaName(e.target.value)}
           variant="standard"
           type="text"
           id="name"
@@ -40,12 +48,12 @@ const UpdateEntity = ({ entityProps, handleClose }) => {
         variant="contained"
         onClick={() => setOpenForm(!openForm)}
       >
-        add attribute to collection
+        add property to schema
       </Button>
       {openForm && (
         <>
           <AddAttribute
-            entity={entityProps}
+            schema={schemaProps}
             setOpenForm={setOpenForm}
             handleClose={handleClose}
           />
@@ -53,13 +61,13 @@ const UpdateEntity = ({ entityProps, handleClose }) => {
         </>
       )}
 
-      {entityProps?.attributes.lenght !== 0 &&
-        entityProps?.attributes.map((attribute, index) => {
+      {schemaProps?.properties.lenght !== 0 &&
+        schemaProps?.properties.map((property, index) => {
           return (
-            <UpdateAttributeForm
-              attribute={attribute}
-              attributeIndex={index}
-              entityName={entityName}
+            <UpdatePropertyForm
+              property={property}
+              propertyIndex={index}
+              schemaName={schemaName}
               handleClose={handleClose}
               key={index}
             />
@@ -69,4 +77,4 @@ const UpdateEntity = ({ entityProps, handleClose }) => {
   );
 };
 
-export default UpdateEntity;
+export default UpdateSchemaForm;

@@ -1,26 +1,42 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addEntity } from "../../features/entitySlice";
-import { Box, TextField } from "@mui/material";
-import useStyles from "../style";
-import { StyledButton, StyledTypography } from "../common/StyledMaterial";
-import AttributeFrom from "./AttributeFrom";
-import AttributesList from "./AttributesList";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { initializeAttributesList } from "../../features/attributeSlice";
-import "./Entity.css";
+import PropertyForm from "../Property/PropertyForm";
+import PropertiesList from "../Property/PropertiesList";
 
-const CreateEntityForm = () => {
+//action
+import { addSchema } from "../../features/schemaSlice";
+import { initializePropertiesList } from "../../features/propertySlice";
+
+//'@mui/materail'
+import { Box, TextField } from "@mui/material";
+
+// Customized Material component
+import { StyledButton, StyledTypography } from "../common/StyledMaterial";
+
+//style
+import "react-toastify/dist/ReactToastify.css";
+import useStyles from "../style";
+import "./Schema.css";
+
+const SchemaForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const attributes = useSelector((state) => state.attributes.value);
-  const entities = useSelector((state) => state.entities.value);
-  const [entityName, setEntityName] = useState("");
-  const [entityNameError, setEntityNameError] = useState("");
+
+  // get data from store (db)
+  const properties = useSelector((state) => state.properties.value);
+  const schemas = useSelector((state) => state.schemas.value);
+
+  // setter and getter (state)
+  const [schemaName, setSchemaName] = useState("");
+
+  //error
+  const [schemaNameError, setSchemaNameError] = useState("");
   const [errorColor, setErrorColor] = useState(false);
-  const notify = () =>
-    toast.success(`${entityName} collection successfully created !`, {
+
+  // notifications
+  const notifySuccess = () =>
+    toast.success(`${schemaName} schema successfully created !`, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -31,7 +47,7 @@ const CreateEntityForm = () => {
     });
 
   const notifyError = () =>
-    toast.warn(`${entityName} collection already exists!`, {
+    toast.warn(`${schemaName} schema already exists!`, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -41,24 +57,31 @@ const CreateEntityForm = () => {
       progress: undefined,
     });
 
-  const handleEntity = () => {
-    if (!entityName) {
-      setEntityNameError("Add entity name");
+  //handler
+  const handleCreateSchema = () => {
+    if (!schemaName) {
+      setSchemaNameError("Add schema name");
       setErrorColor(true);
     }
-    if (attributes.length === 0 || !entityName) return;
+    if (properties.length === 0 || !schemaName) return;
 
-    const checkEntityNameExist = (obj) => obj.name === entityName;
-    const value = entities.some(checkEntityNameExist);
+    const checkIfSchemaExist = (obj) => obj.name === schemaName;
+    const value = schemas.some(checkIfSchemaExist);
 
     if (value) {
-      return notifyError();
+      notifyError();
+      return;
     }
-    dispatch(addEntity({ name: entityName, attributes: attributes }));
-    dispatch(initializeAttributesList(attributes));
-    setEntityNameError("");
+    dispatch(
+      addSchema({
+        name: schemaName,
+        schema: { type: "object", properties: properties },
+      })
+    );
+    dispatch(initializePropertiesList(properties));
+    setSchemaNameError("");
     setErrorColor(false);
-    notify();
+    notifySuccess();
   };
 
   return (
@@ -72,7 +95,7 @@ const CreateEntityForm = () => {
             padding: 1,
           }}
         >
-          <StyledTypography variant="h5">Create a collection</StyledTypography>
+          <StyledTypography variant="h5">Create a schema</StyledTypography>
           <br />
           <TextField
             InputLabelProps={{ className: classes.textfield }}
@@ -82,23 +105,23 @@ const CreateEntityForm = () => {
             variant="standard"
             type="text"
             id="name"
-            placeholder="name of collection"
-            value={entityName}
-            onChange={(e) => setEntityName(e.target.value)}
-            helperText={entityNameError && entityNameError}
+            placeholder="name of schema"
+            value={schemaName}
+            onChange={(e) => setSchemaName(e.target.value)}
+            helperText={schemaNameError && schemaNameError}
             required
             error={errorColor}
           />
         </Box>
-        <AttributeFrom />
+        <PropertyForm />
       </div>
       <br />
-      <AttributesList />
+      <PropertiesList />
       <div className="wrap-button">
         <StyledButton
           variant="contained"
           className={classes.buttonBg}
-          onClick={handleEntity}
+          onClick={handleCreateSchema}
         >
           Create
         </StyledButton>
@@ -118,4 +141,4 @@ const CreateEntityForm = () => {
   );
 };
 
-export default CreateEntityForm;
+export default SchemaForm;
