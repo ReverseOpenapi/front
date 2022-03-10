@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../style.css";
+import GetSchema from '../../../mcd/components/GetSchema/GetSchema' 
 
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -92,7 +93,7 @@ const addResponses = () => {
                           );
                     }
                   })}
-
+                  <GetSchema />
                   <Button primary onClick={() => addDataResponses()}>
                     Add Response
                   </Button>
