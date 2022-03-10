@@ -14,6 +14,20 @@ export const entitySlice = createSlice({
     removeEntity(state, action) {
       state.value.splice(action.payload, 1);
     },
+    addAttributeToEntity(state, action) {
+      state.value.map(
+        (entity) =>
+          entity.name === action.payload[0] &&
+          entity.attributes.push(action.payload[1])
+      );
+    },
+    removeAttributeToEntity(state, action) {
+      state.value.map(
+        (entity) =>
+          entity.name === action.payload[0] &&
+          entity.attributes.splice(action.payload[1], 1)
+      );
+    },
     updateEntityName(state, action) {
       state.value.map((entity) =>
         entity.name === action.payload[3]
@@ -61,6 +75,8 @@ export const entitySlice = createSlice({
 export const {
   addEntity,
   removeEntity,
+  addAttributeToEntity,
+  removeAttributeToEntity,
   updateEntityName,
   updateEntityType,
   updateEntitySize,

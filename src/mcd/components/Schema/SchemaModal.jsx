@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { removeEntity } from "../../features/entitySlice";
 import {
@@ -48,7 +48,7 @@ const SchemaModal = (props) => {
         ) : null}
       </DialogTitle>
       <DialogContent dividers>
-        <UpdateEntityForm entityProps={entity} />
+        <UpdateEntityForm entityProps={entity} handleClose={handleClose} />
       </DialogContent>
       <DialogActions>
         <Button

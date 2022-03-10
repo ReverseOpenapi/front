@@ -1,16 +1,21 @@
-import React, { useState } from "react";
-import { Box, TextField } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import "./Entity.css";
 import useStyles from "../style";
+import { Box, Button, Divider, TextField } from "@mui/material";
 import { StyledTypography } from "../common/StyledMaterial";
 import UpdateAttributeForm from "./UpdateAttributeForm";
+import AddAttribute from "./AddAttribute";
 
-const UpdateEntity = ({ entityProps }) => {
+const UpdateEntity = ({ entityProps, handleClose }) => {
   const classes = useStyles();
   const [entityName, setEntityName] = useState(entityProps.name);
+  const [openForm, setOpenForm] = useState(false);
 
   return (
     <div>
-      <StyledTypography variant="overline">Entity Properties</StyledTypography>
+      <StyledTypography variant="overline">
+        Collection Properties
+      </StyledTypography>
       <Box
         component="form"
         sx={{
@@ -30,6 +35,24 @@ const UpdateEntity = ({ entityProps }) => {
           disabled
         />
       </Box>
+      <Button
+        sx={{ display: "flex", marginLeft: 2 }}
+        variant="contained"
+        onClick={() => setOpenForm(!openForm)}
+      >
+        add attribute to collection
+      </Button>
+      {openForm && (
+        <>
+          <AddAttribute
+            entity={entityProps}
+            setOpenForm={setOpenForm}
+            handleClose={handleClose}
+          />
+          <Divider />
+        </>
+      )}
+
       {entityProps?.attributes.lenght !== 0 &&
         entityProps?.attributes.map((attribute, index) => {
           return (
@@ -37,6 +60,7 @@ const UpdateEntity = ({ entityProps }) => {
               attribute={attribute}
               attributeIndex={index}
               entityName={entityName}
+              handleClose={handleClose}
               key={index}
             />
           );
