@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import UpdatePropertyForm from "../Property/UpdatePropertyForm";
-import AddAttribute from "../Property/PropertyFormModal";
+import PropertyFormModal from "../Property/PropertyFormModal";
 
 // '@mui/material/
 import { Box, Button, Divider, TextField } from "@mui/material";
@@ -52,7 +52,7 @@ const UpdateSchemaForm = ({ schemaProps, handleClose }) => {
       </Button>
       {openForm && (
         <>
-          <AddAttribute
+          <PropertyFormModal
             schema={schemaProps}
             setOpenForm={setOpenForm}
             handleClose={handleClose}
@@ -61,8 +61,8 @@ const UpdateSchemaForm = ({ schemaProps, handleClose }) => {
         </>
       )}
 
-      {schemaProps?.properties.lenght !== 0 &&
-        schemaProps?.properties.map((property, index) => {
+      {schemaProps?.schema.properties.lenght !== 0 &&
+        schemaProps?.schema.properties.map((property, index) => {
           return (
             <UpdatePropertyForm
               property={property}
