@@ -1,34 +1,48 @@
-import { Box, Card, Paper } from "@mui/material";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addRelation } from "../../features/relationSlice";
-import SelectInput from "../common/SelectInput";
 import { ToastContainer, toast } from "react-toastify";
+
+//action
+import { addRelation } from "../../features/relationSlice";
+
+// '@mui/materail'
+import { Box } from "@mui/material";
+
+//Customized Material component
+import { StyledButton, StyledTypography } from "../common/StyledMaterial";
+import SelectInput from "../common/SelectInput";
+
+//style
 import "react-toastify/dist/ReactToastify.css";
 import useStyles from "../style";
 import "./Relation.css";
 
-import { StyledButton, StyledTypography } from "../common/StyledMaterial";
-
 const RelationForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const entities = useSelector((state) => state.entities.value);
+
+  //* get data from store
+  const schemas = useSelector((state) => state.schemas.value);
+
+  // setter and getter (state)
+  const [sourceProperty, setSourceProperty] = useState("");
+  const [targetProperty, setTargetProperty] = useState("");
+  const [sourcePort, setSourcePort] = useState("");
+  const [targetPort, setTargetPort] = useState("");
   const [portOptions, setPortOptions] = useState([
     {
       name: "port",
       type: "type",
-      size: "",
-      key: false,
-      nulled: false,
+    },
+  ]);
+  const [targetPortOptions, setTargetPortOptions] = useState([
+    {
+      name: "port",
+      type: "type",
     },
   ]);
 
-  const [sourceEntity, setSourceEntity] = useState("");
-  const [targetEntity, setTargetEntity] = useState("");
-  const [sourcePort, setSourcePort] = useState("");
-  const [targetPort, setTargetPort] = useState("");
-
+  //notifications
   const notify = () =>
     toast.error(
       `relation can only be created between two different collections !`,
@@ -43,38 +57,39 @@ const RelationForm = () => {
       }
     );
 
+  //handlers
   const handleRelation = () => {
-    if (!sourceEntity || !sourcePort || !targetPort || !targetPort) return;
-    if (sourceEntity === targetEntity) {
+    if (!sourceProperty || !sourcePort || !targetPort || !targetPort) return;
+    if (sourceProperty === targetProperty) {
       notify();
       return;
     }
     dispatch(
       addRelation({
-        source: { table: sourceEntity, port: sourcePort },
-        target: { table: targetEntity, port: targetPort },
+        source: { schema: sourceProperty, port: sourcePort },
+        target: { schema: targetProperty, port: targetPort },
       })
     );
 
-    setSourceEntity("");
-    setTargetEntity("");
+    setSourceProperty("");
+    setTargetProperty("");
     setSourcePort("");
     setTargetPort("");
   };
 
   const handleSelectSource = (e) => {
-    setSourceEntity(e.target.value);
-    entities.map((entity) => {
-      if (entity.name === e.target.value) {
-        setPortOptions(entity.attributes);
+    setSourceProperty(e.target.value);
+    schemas.map((schema) => {
+      if (schema.name === e.target.value) {
+        setPortOptions(schema.properties);
       }
     });
   };
   const handleSelectTaget = (e) => {
-    setTargetEntity(e.target.value);
-    entities.map((entity) => {
-      if (entity.name === e.target.value) {
-        setPortOptions(entity.attributes);
+    setTargetProperty(e.target.value);
+    schemas.map((schema) => {
+      if (schema.name === e.target.value) {
+        setTargetPortOptions(schema.properties);
       }
     });
   };
@@ -83,9 +98,13 @@ const RelationForm = () => {
     setSourcePort(e.target.value);
   };
 
+  console.log(sourcePort);
+
   const hanbleTargetPort = (e) => {
     setTargetPort(e.target.value);
   };
+
+  console.log(targetPort);
 
   return (
     <div>
@@ -94,10 +113,10 @@ const RelationForm = () => {
         <SelectInput
           id="source"
           select
-          label="Source entity"
-          value={sourceEntity}
+          label="Source schema"
+          value={sourceProperty}
           onChange={(e) => handleSelectSource(e)}
-          selectOptions={entities}
+          selectOptions={schemas}
           required
         />
         <SelectInput
@@ -114,10 +133,10 @@ const RelationForm = () => {
         <SelectInput
           id="target"
           select
-          label="Target entity"
-          value={targetEntity}
+          label="Target schema"
+          value={targetProperty}
           onChange={(e) => handleSelectTaget(e)}
-          selectOptions={entities}
+          selectOptions={schemas}
           required
         />
         <SelectInput
@@ -126,7 +145,7 @@ const RelationForm = () => {
           label="select port"
           value={targetPort}
           onChange={hanbleTargetPort}
-          selectOptions={portOptions}
+          selectOptions={targetPortOptions}
           required
         />
       </Box>
