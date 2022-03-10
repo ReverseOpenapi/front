@@ -29,7 +29,6 @@ export default function Response({ dataResponse, dataPath }) {
   };
 
   const addDataResponses = () => {
-    console.log(responses[responses.length-1])
     dataResponse(responses, dataPath);
   };
 

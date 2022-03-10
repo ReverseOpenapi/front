@@ -40,16 +40,10 @@ export default function StepperOpenApi() {
     },
   ];
 
+  const [dataInfo, setDataInfo] = useState([]);
   const [dataPaths, setDataPaths] = useState([]);
   const [nbPath, setNbPath] = useState(0)
-  const [dataInfo, setDataInfo] = useState([]);
-  const [dataParams, setDataParams] = useState([]);
-
-  // FUNCTIONS UTILS
-  const addObj = (obj, key, value) => {
-    obj[key] = value;
-  };
-
+  
   //Stepper config
   const [activeStep, setActiveStep] = React.useState(0);
 
@@ -59,10 +53,6 @@ export default function StepperOpenApi() {
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
   };
 
   const callbackInfo = (childData) => {
@@ -98,12 +88,10 @@ export default function StepperOpenApi() {
       childData.path === undefined ? "" : childData.path.trim();
     let childDataOpe =
       childData.operationObj === undefined ? "" : childData.operationObj.trim();
-    console.log(childData);
     if (childData === false) {
       handleBack();
     }
     if (childDataPath !== "" && childDataOpe !== "") {
-      console.log(childData)
       setNbPath(nbPath + 1)
       //set current data path in dataPaths
       setDataPaths((currentDataPath) => [
@@ -118,28 +106,20 @@ export default function StepperOpenApi() {
     }
   };
 
-  console.log(dataPaths)
-
   const callbackParam = (parameters, dataPath) => {
-    console.log(parameters)
     dataPaths.filter((item, i) => {
       if (item.id === dataPath.id) {
         dataPaths[i] = { ...dataPaths[i], parameters };
       }
     });
-    console.log(dataPaths);
- 
-
   };
 
   const callbackResponse = (responses, dataPath) => {
-    console.log(responses)
     dataPaths.filter((item, i) => {
       if (item.id === dataPath.id) {
         dataPaths[i] = { ...dataPaths[i], responses };
       }
     });
-    console.log(dataPaths);
   };
 
 
@@ -155,8 +135,6 @@ export default function StepperOpenApi() {
       color: "white",
     },
   });
-
-  console.log(dataPaths);
 
   return (
     <div className="Page_form">
