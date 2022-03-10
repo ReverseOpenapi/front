@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import "./style.css";
 import { useSelector, useDispatch } from "react-redux";
 
-import Info from "./Info";
-import Tags from "./Tags";
-import Paths from "./Paths";
-import Parameters from "./Parameters"
-import CustomizedList from "./CustomizedList"
+import Info from "./Info/Info";
+import Tags from "./Tag/Tags";
+import Paths from "./Path/Paths";
+import Parameters from "./Path/Parameters";
+import Response from "./Path/Response";
 
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
@@ -41,8 +41,14 @@ export default function StepperOpenApi() {
   ];
 
   const [dataPaths, setDataPaths] = useState([]);
+  const [nbPath, setNbPath] = useState(0)
   const [dataInfo, setDataInfo] = useState([]);
-  const [dataParams, setDataParams] = useState([])
+  const [dataParams, setDataParams] = useState([]);
+
+  // FUNCTIONS UTILS
+  const addObj = (obj, key, value) => {
+    obj[key] = value;
+  };
 
   //Stepper config
   const [activeStep, setActiveStep] = React.useState(0);
@@ -58,7 +64,6 @@ export default function StepperOpenApi() {
   const handleReset = () => {
     setActiveStep(0);
   };
-
 
   const callbackInfo = (childData) => {
     //replace old data Info with the updated data
@@ -81,25 +86,30 @@ export default function StepperOpenApi() {
   };
 
   const callbackTag = (childData) => {
-    if(childData === true) {
+    if (childData === true) {
       handleNext();
-    }else {
+    } else {
       handleBack();
     }
-  }
+  };
 
   const callbackPath = (childData) => {
-    let childDataPath = childData.path === undefined ? "" : childData.path.trim() 
-    let childDataOpe = childData.operationObj === undefined ? "" : childData.operationObj.trim()
-    console.log(childData)
-    if(childData === false){
-      handleBack()
+    let childDataPath =
+      childData.path === undefined ? "" : childData.path.trim();
+    let childDataOpe =
+      childData.operationObj === undefined ? "" : childData.operationObj.trim();
+    console.log(childData);
+    if (childData === false) {
+      handleBack();
     }
-    if( childDataPath !== "" &&  childDataOpe !== "") {
+    if (childDataPath !== "" && childDataOpe !== "") {
+      console.log(childData)
+      setNbPath(nbPath + 1)
       //set current data path in dataPaths
       setDataPaths((currentDataPath) => [
         ...currentDataPath,
         {
+          id : nbPath,
           operationObj: childData.operationObj,
           path: childData.path.trim(), // trim() : remove the spaces, before and after the value
           opeColor: childData.opeColor,
@@ -108,26 +118,30 @@ export default function StepperOpenApi() {
     }
   };
 
-  const callbackParam = (childData, dataPath) => {
-  dataPaths.filter((item) => {
-    if(item === dataPath){
-      dataPaths.splice(dataPaths.indexOf(item), 1);//avoids duplication
-    }
-  })
+  console.log(dataPaths)
 
-  setDataPaths((currentDataPath) => [
-    ...currentDataPath,
-    {
-      operationObj: dataPath.operationObj,
-      path: dataPath.path,
-      opeColor: dataPath.opeColor,
-      parameters : childData
-    },
-  ]);
-
-  // localStorage.setItem("param", JSON.stringify(childData));
+  const callbackParam = (parameters, dataPath) => {
+    console.log(parameters)
+    dataPaths.filter((item, i) => {
+      if (item.id === dataPath.id) {
+        dataPaths[i] = { ...dataPaths[i], parameters };
+      }
+    });
+    console.log(dataPaths);
+ 
 
   };
+
+  const callbackResponse = (responses, dataPath) => {
+    console.log(responses)
+    dataPaths.filter((item, i) => {
+      if (item.id === dataPath.id) {
+        dataPaths[i] = { ...dataPaths[i], responses };
+      }
+    });
+    console.log(dataPaths);
+  };
+
 
 
   const handleShowData = () => {
@@ -138,12 +152,11 @@ export default function StepperOpenApi() {
 
   const StyledStepLabel = styled(StepLabel)({
     "& .MuiStepLabel-label": {
-      color: "white"
-    }
+      color: "white",
+    },
   });
 
-
-console.log(dataPaths)
+  console.log(dataPaths);
 
   return (
     <div className="Page_form">
@@ -223,8 +236,8 @@ console.log(dataPaths)
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Parameters dataPath={item} dataParam={callbackParam}/>
-                <Typography>Response Component</Typography>
+                <Parameters dataPath={item} dataParam={callbackParam} />
+                <Response dataPath={item} dataResponse={callbackResponse} />
               </AccordionDetails>
             </Accordion>
           );

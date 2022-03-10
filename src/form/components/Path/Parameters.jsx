@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./style.css";
+import "../style.css";
 import OptionalParams from "./OptionalParams";
 import CustomizedList from "./CustomizedList";
 import ListType from "./ListType";
@@ -73,10 +73,10 @@ const addLocationParam = () => {
      color="secondary"
      onClick={() => addLocationParam()}>
      <AddIcon />
+     Add Parameter
    </IconButton>
 
       {parameters.map((item, i) => {
-        console.log(i)
         return(
       <>
    <Accordion
@@ -99,14 +99,11 @@ const addLocationParam = () => {
          <CustomizedList dataIn={callbackIn} paramsID={i} />
 
          {Object.keys(parameters[i]).map((item, index) => {
-           console.log(item)
            if (
              item === "required" ||
              item === "deprecated" ||
              item === "allowEmptyValue"
            ) {
-             console.log(i)
-             console.log(item)
              return (
                <div className="checkboxStyle">
                  <FormControlLabel
@@ -122,7 +119,7 @@ const addLocationParam = () => {
                  />
                </div>
              );
-           } else if (item !== "in" && item !== "id") {
+           } else if (item !== "in" && item !== "id" && item !== "schemaType") {
              return (
                <TextField
                  className="text-field"
