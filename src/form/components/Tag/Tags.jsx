@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "./style.css";
+import "../style.css";
 import Button from '@mui/material/Button';
 import TextField from "@mui/material/TextField";
 export default function Tags({dataTags}) {
