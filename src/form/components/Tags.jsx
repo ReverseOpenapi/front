@@ -1,19 +1,19 @@
-import React, { useState } from 'react'
-import "./style.css"
+import React, { useState } from 'react';
+import "./style.css";
 import Button from '@mui/material/Button';
 import TextField from "@mui/material/TextField";
-import { Input } from '@mui/material';
 export default function Tags({dataTags}) {
 
-    const [tags, setTags] = useState([{name: "", description: "" }])
+    const [tags, setTags] = useState([{name: "", description: "" }]);
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
 
     //removeTags
     const removeTags = indexToremove => {
         setTags(tags.filter((_, index) => index !== indexToremove));
     };
-    const [name, setName] = useState("")
-    const [description, setDescription] = useState("")
 
+    // submitTags
     const handleSubmit = event => {
         event.preventDefault()
         setTags([...tags,  {name: name, description: description }]);
