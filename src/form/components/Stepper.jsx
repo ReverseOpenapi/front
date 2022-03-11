@@ -15,11 +15,13 @@ import StepLabel from "@mui/material/StepLabel";
 import StepContent from "@mui/material/StepContent";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 
 import { styled } from "@material-ui/styles";
 
@@ -32,7 +34,7 @@ export default function StepperOpenApi() {
     },
     {
       label: "tags",
-      tags: [],
+      tags: Array,
     },
     {
       label: "paths",
@@ -41,6 +43,7 @@ export default function StepperOpenApi() {
   ];
 
   const [dataInfo, setDataInfo] = useState([]);
+  const [dataTags, setDataTags] = useState([]);
   const [dataPaths, setDataPaths] = useState([]);
   const [nbPath, setNbPath] = useState(0)
   
@@ -60,23 +63,24 @@ export default function StepperOpenApi() {
     if (dataInfo !== []) {
       dataInfo.splice(0);
     }
+    console.log(childData)
     for (let i = 0; i < childData.length; i++) {
       //set current data info in dataInfos
       setDataInfo((currentDataPath) => [
         ...currentDataPath,
         {
-          key: childData[i].key,
-          value: childData[i].value,
+          [childData[i].key] : childData[i].value,
         },
       ]);
     }
-    steps[0].info = childData;
+    // steps[0].info = childData;
     localStorage.setItem("info", JSON.stringify(childData));
     handleNext();
   };
 
-  const callbackTag = (childData) => {
-    if (childData === true) {
+  const callbackTag = (nextStep, tags) => {
+    setDataTags((currentDataTag) => [...currentDataTag, tags ]);
+    if (nextStep === true) {
       handleNext();
     } else {
       handleBack();
@@ -84,10 +88,9 @@ export default function StepperOpenApi() {
   };
 
   const callbackPath = (childData) => {
-    let childDataPath =
-      childData.path === undefined ? "" : childData.path.trim();
-    let childDataOpe =
-      childData.operationObj === undefined ? "" : childData.operationObj.trim();
+    console.log(childData)
+    let childDataPath = childData.path === undefined ? "" : childData.path.trim();
+    let childDataOpe = childData.operationObj === undefined ? "" : childData.operationObj.trim();
     if (childData === false) {
       handleBack();
     }
@@ -101,6 +104,7 @@ export default function StepperOpenApi() {
           operationObj: childData.operationObj,
           path: childData.path.trim(), // trim() : remove the spaces, before and after the value
           opeColor: childData.opeColor,
+          tags : childData.tags,
         },
       ]);
     }
@@ -126,6 +130,7 @@ export default function StepperOpenApi() {
 
   const handleShowData = () => {
     steps[0].info = dataInfo;
+    steps[1].tags = dataTags;
     steps[2].paths = dataPaths;
     console.log(steps);
   };
@@ -194,7 +199,6 @@ export default function StepperOpenApi() {
       </div>
 
       <div className="droite">
-        <h1>DISLAY PATHS</h1>
         {dataPaths.map((item) => {
           return (
             <Accordion
@@ -210,7 +214,13 @@ export default function StepperOpenApi() {
                 id="panel1a-header"
               >
                 <Typography>
-                  {item.operationObj} {item.path}
+                  {item.operationObj} {item.path} 
+                  <Chip label={item.tags.name}         
+                  style={{
+                  backgroundColor: "gray",
+                  color: "white",
+                  margin: "0px 5px 10px",
+                }}/>
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>

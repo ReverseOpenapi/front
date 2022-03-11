@@ -11,11 +11,13 @@ import { useSelector } from "react-redux";
 // style
 import "./GetSchema.css";
 
-const GetSchema = () => {
+const GetSchema = ({dataSchema, reqHttpID}) => {
   const schemas = useSelector((state) => state.schemas.value);
 
   const selectSchema = (arg) => {
     console.log(arg);
+    console.log(reqHttpID)
+    dataSchema(arg, reqHttpID.id)
   };
 
   return (
