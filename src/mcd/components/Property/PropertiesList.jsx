@@ -36,8 +36,6 @@ const PropertiesList = () => {
     dispatch(removeProperty(index));
   };
 
-  console.log(Object.keys(properties[0]));
-
   return (
     <div>
       <div className="wrap-container">
