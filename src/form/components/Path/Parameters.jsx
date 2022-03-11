@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../style.css";
-import OptionalParams from "./OptionalParams";
+// import OptionalParams from "./OptionalParams";
 import CustomizedList from "./CustomizedList";
 import ListType from "./ListType";
 
@@ -77,6 +77,7 @@ const addLocationParam = () => {
    </IconButton>
 
       {parameters.map((item, i) => {
+        const indexParams = Object.keys(parameters[i])
         return(
       <>
    <Accordion
@@ -98,7 +99,7 @@ const addLocationParam = () => {
        <Typography>
          <CustomizedList dataIn={callbackIn} paramsID={i} />
 
-         {Object.keys(parameters[i]).map((item, index) => {
+         {indexParams.map((item, index) => {
            if (
              item === "required" ||
              item === "deprecated" ||
@@ -133,7 +134,7 @@ const addLocationParam = () => {
                />
              );
            }
-         })}
+         }, {})}
 
         <ListType dataType={callbackType} paramsID={i} />
          <Button primary onClick={() => addParameter()}>
@@ -144,7 +145,7 @@ const addLocationParam = () => {
    </Accordion>
    </>
       )
-      })}
+      },{})}
     </div>
   );
 }

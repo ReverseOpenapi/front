@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./style.css";
-import { useSelector, useDispatch } from "react-redux";
 
 import Info from "./Info/Info";
 import Tags from "./Tag/Tags";
@@ -113,6 +112,7 @@ export default function StepperOpenApi() {
       if (item.id === dataPath.id) {
         dataPaths[i] = { ...dataPaths[i], parameters };
       }
+      return item;
     });
   };
 
@@ -121,6 +121,7 @@ export default function StepperOpenApi() {
       if (item.id === dataPath.id) {
         dataPaths[i] = { ...dataPaths[i], responses };
       }
+      return item;
     });
   };
 

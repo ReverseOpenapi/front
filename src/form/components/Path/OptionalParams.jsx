@@ -20,7 +20,7 @@ export default function OptionalParams({ addField, dataParentToChild }) {
     setOpen(!open);
   };
 
-  const [checked, setChecked] = React.useState([]);
+  const [checked, setChecked] = useState([]);
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
