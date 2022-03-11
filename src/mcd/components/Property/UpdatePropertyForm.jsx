@@ -36,8 +36,8 @@ const UpdatePropertyForm = ({
   // data from store
   const schemas = useSelector((state) => state.schemas.value);
 
-  // data to update
-  const { type, name } = property;
+  const name = Object.keys(property).toString();
+  const type = property[Object.keys(property)].type;
 
   // setter and getter (state)
   const [propertyName, setPropertyName] = useState(name);
@@ -62,12 +62,15 @@ const UpdatePropertyForm = ({
 
   const handleValidateType = () => {
     if (propertyType !== type) {
-      dispatch(updateSchemaType([schemas, type, propertyType, schemaName]));
+      dispatch(
+        updateSchemaType([schemas, type, propertyType, schemaName, name])
+      );
     }
   };
 
   const handleDeleteProperty = () => {
     dispatch(removePropertySchema([schemaName, propertyIndex]));
+    console.log(propertyIndex);
     handleClose();
   };
 
