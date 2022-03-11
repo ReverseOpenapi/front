@@ -70,7 +70,6 @@ const UpdatePropertyForm = ({
 
   const handleDeleteProperty = () => {
     dispatch(removePropertySchema([schemaName, propertyIndex]));
-    console.log(propertyIndex);
     handleClose();
   };
 

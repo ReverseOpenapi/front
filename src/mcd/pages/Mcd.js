@@ -46,8 +46,6 @@ const Mcd = () => {
     );
     setSelected(existingSelectedItem);
     setHasLoading(true);
-    console.log(existingSelectedItem);
-    console.log(selected);
   }, []);
 
   useEffect(() => {
@@ -96,13 +94,6 @@ const Mcd = () => {
                 onClick={() => selectedItem(3)}
               >
                 Schema
-              </MenuItem>
-              <MenuItem
-                active={selected === 4 ? true : false}
-                icon={<GrLink />}
-                onClick={() => selectedItem(4)}
-              >
-                Relation
               </MenuItem>
               <MenuItem
                 active={selected === 5 ? true : false}

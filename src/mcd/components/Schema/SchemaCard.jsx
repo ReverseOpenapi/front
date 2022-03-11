@@ -68,15 +68,10 @@ const SchemaCard = () => {
     setIndexOfSchema(index);
   };
 
-  const sendSchema = () => {};
-
-  console.log(schemas);
-
   return hasLoaded ? (
     <div id="canvas-wrap">
       <canvas id="canvas"></canvas>
       <div id="overlay">
-        <Button onClick={sendSchema}>Send schemas</Button>
         <div className="mcd-view-container">
           <div className="elements">
             {schemas.map((schema, index) => {

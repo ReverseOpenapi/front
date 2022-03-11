@@ -98,13 +98,9 @@ const RelationForm = () => {
     setSourcePort(e.target.value);
   };
 
-  console.log(sourcePort);
-
   const hanbleTargetPort = (e) => {
     setTargetPort(e.target.value);
   };
-
-  console.log(targetPort);
 
   return (
     <div>
