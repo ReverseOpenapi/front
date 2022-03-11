@@ -63,7 +63,6 @@ export default function StepperOpenApi() {
     if (dataInfo !== []) {
       dataInfo.splice(0);
     }
-    console.log(childData)
     for (let i = 0; i < childData.length; i++) {
       //set current data info in dataInfos
       setDataInfo((currentDataPath) => [
@@ -88,7 +87,6 @@ export default function StepperOpenApi() {
   };
 
   const callbackPath = (childData) => {
-    console.log(childData)
     let childDataPath = childData.path === undefined ? "" : childData.path.trim();
     let childDataOpe = childData.operationObj === undefined ? "" : childData.operationObj.trim();
     if (childData === false) {
