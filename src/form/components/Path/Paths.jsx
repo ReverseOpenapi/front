@@ -13,10 +13,13 @@ export default function Paths({ dataPath }) {
     { key: "DELETE", color: "red" },
   ];
   const [isClicked, setIsClicked] = useState(false);
+  const [tagClicked, setTagClicked] = useState(false);
   const [opeSelected, setOpeSelected] = useState({ key: "", color: "" });
   let path = "";
   let dataComplete = {};
   const back = false;
+  const [tagSelected, setTagSelected] = useState(String);
+  const storageTags = JSON.parse(localStorage.getItem("tags"));
 
   //Select Operation
   const chipsClick = (ope) => {
@@ -25,6 +28,13 @@ export default function Paths({ dataPath }) {
   };
   const selectOpe = () => {
     setIsClicked(false);
+  };
+  const selectHttpMethod = (tag) => {
+    setTagSelected(tag);
+    setTagClicked(true);
+  };
+  const selectTag = () => {
+    setTagClicked(false);
   };
 
   const handleChange = (event) => {
@@ -35,26 +45,19 @@ export default function Paths({ dataPath }) {
         operationObj: "",
         path: "",
         opeColor: "",
+        tags: "",
       };
     } else {
       dataComplete = {
         operationObj: opeSelected.key,
         path: path,
         opeColor: opeSelected.color,
+        tags: tagSelected,
       };
     }
   };
 
-  const Field = (
-    <TextField
-      className="text-field"
-      name="test"
-      required
-      id="filled-required"
-      label="Path"
-      onChange={(e) => handleChange(e)}
-    />
-  );
+
 
   //IF Operation is not selected, block the Add Path button
   return (
@@ -84,7 +87,39 @@ export default function Paths({ dataPath }) {
           })
         )}
       </div>
-      <div>{Field}</div>
+      <div>
+      {tagClicked ? (
+          <Button
+            variant="contained"
+            onClick={selectTag}
+            sx={{ backgroundColor: "gray", margin: "10px" }}
+          >
+            {tagSelected.name}
+          </Button>
+        ) : (
+          storageTags.map((tag) => {
+            return (
+              <Chip
+                label={tag.name}
+                onClick={() => selectHttpMethod(tag)}
+                style={{
+                  backgroundColor: "gray",
+                  color: "white",
+                  margin: "0px 5px 10px",
+                }}
+              />
+            );
+          })
+        )}
+        </div>
+      <TextField
+        className="text-field"
+        name="test"
+        required
+        id="filled-required"
+        label="Path"
+        onChange={(e) => handleChange(e)}
+      />
       <Button primary onClick={() => dataPath(back)}>
         Back
       </Button>

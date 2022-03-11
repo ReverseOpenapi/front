@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../style.css";
-
+import GetSchema from '../../../mcd/components/GetSchema/GetSchema'
+ 
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
@@ -17,6 +18,7 @@ import IconButton from "@mui/material/IconButton";
 export default function Response({ dataResponse, dataPath }) {
   const [responses, setResponses] = useState([]);
   const [nbRes, setNbRes] = useState(0);
+  const [schemaData, setSchemaData] = useState([])
 
   // FUNCTIONS UTILS
   const addParamObj = (obj, key, value) => {
@@ -29,7 +31,9 @@ export default function Response({ dataResponse, dataPath }) {
   };
 
   const addDataResponses = () => {
+    console.log(responses)
     dataResponse(responses, dataPath);
+    
   };
 
   //Add new parameter
@@ -44,6 +48,15 @@ const addResponses = () => {
     }])
   }
 
+const callbackSchema = (schema, responseID) => {
+  console.log(schema)
+  console.log(responseID)
+  console.log(responses)
+  console.log(responses[responseID])
+
+  addParamObj(responses[responseID], "schema", schema);
+}
+console.log(responses)
   return (
     <div>
       <IconButton
@@ -77,7 +90,7 @@ const addResponses = () => {
                 <Typography>
 
                   {Object.keys(responses[i]).map((item, index) => {
-                    if(item !== "id"){
+                    if(item !== "id" && item !== "schema"){
                         return (
                             <TextField
                               className="text-field"
@@ -92,7 +105,7 @@ const addResponses = () => {
                           );
                     }
                   })}
-
+                  <GetSchema reqHttpID={item} dataSchema={callbackSchema}/>
                   <Button primary onClick={() => addDataResponses()}>
                     Add Response
                   </Button>

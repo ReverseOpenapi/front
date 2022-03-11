@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import "../style.css";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+
 export default function Tags({ dataTags }) {
-  const [tags, setTags] = useState([{ name: "", description: "" }]);
+  const [tags, setTags] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
@@ -19,6 +20,11 @@ export default function Tags({ dataTags }) {
     setName("");
     setDescription("");
   };
+
+  const sendData = () => {
+    dataTags(true, tags)
+    localStorage.setItem("tags", JSON.stringify(tags))
+  }
 
   return (
     <div>
@@ -57,7 +63,7 @@ export default function Tags({ dataTags }) {
       <Button primary onClick={() => dataTags(false)}>
         Back Step
       </Button>
-      <Button primary onClick={() => dataTags(true)}>
+      <Button primary onClick={() => sendData()}>
         Next Step
       </Button>
     </div>
